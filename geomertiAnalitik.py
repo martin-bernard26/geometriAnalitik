@@ -8,7 +8,7 @@ st.set_page_config(layout="wide")
 if "kumpulan" not in st.session_state:
     st.session_state['kumpulan']={'latar':True, 'rps':False, 'pertemuan1':False,
                                   'pertemuan2':False, 'pertemuan3':False,'pertemuan4':False,
-                                  'pertemuan5':False,'diskusi':False}
+                                  'pertemuan5':False,'pertemuan6':False,'diskusi':False}
 
 #==========================
 def kover():
@@ -145,6 +145,148 @@ def pertemuan_5():
                         st.error('Tugas Anda gagal terkirim')
                 except Exceptions as e:
                     st.error('Ada kesalahan di sistem silahkan menghubungi')
+
+def pertemuan_6():
+    menu = st.tabs(['Modul','Video','Latihan Penguatan Dasar','Latihan HOTS','Bantuan Geogebra'])
+    with menu[0]:
+        tulisan_html='''
+        <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/bagiberkas.html' style='width:100%; height:1000px'></iframe>
+        '''
+        st.components.v1.html(tulisan_html,height=1500)
+    with menu[1]:
+        st.title("Persamaan Garis Bagi Sudut")
+        st.video("https://youtu.be/LxSssUvOlTw")
+        st.title("Persamaan Garis Berkas Garis")
+        st.video("https://youtu.be/9RDMe-ZGcgI")
+    with menu[2]:
+        tulisan_html='''
+        <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/latihan6.html' style='width:100%; height:1000px'></iframe>
+        '''
+        st.components.v1.html(tulisan_html,height=1000)
+        st.title("Masukan Mahasiswa menggunakan LaTeX")
+        tulisan_html='''
+        <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/diskusi6.html' style='width:100%; height:1000px'></iframe>
+        '''
+        st.components.v1.html(tulisan_html,height=1500)
+    with menu[3]:
+        tulisan_html='''
+        <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/hots6.html' style='width:100%; height:1000px'></iframe>
+        '''
+        st.components.v1.html(tulisan_html,height=1000)
+        st.title("Pengumpulan Mahasiswa")
+        st.write("Silahkan isi identitas dan pengumpulan tugas")
+        alamat_GS = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSf6Yt4N9B3QKM1GkrD05H3hbka6aIFMB7UT5KTJIuKOxvEFoA/formResponse'
+        with st.form(key='Masukan tugas persamaan garis bagi sudut dan berkas garis',clear_on_submit=True):
+            nama = st.text_input('Masukan Nama Anda',key='nama1')
+            nim = st.text_input('Masukan NIM Anda',key='nim1')
+            masukan = st.text_input('Masukan link drive di sini',key='masukan1')
+            tombol1 = st.form_submit_button("Kirimkan Tugas")
+        if tombol1:
+            if nama.strip()=='' and nim.strip()=='' and masukan.strip()=='':
+                st.error("Pengisian data kurang lengkap")
+            else:
+                data1 = {"entry.1403593665":nama,
+                         "entry.1764365330":nim,
+                         "entry.911238631":masukan}
+                try:
+                    respon = requests.post(alamat_GS,data=data1,timeout=10)
+                    if respon.status_code==200:
+                        st.success("Data Anda sudah di simpan")
+                    else:
+                        st.error("Data Anda gagal di simpan")
+                except Exception as e:
+                    st.error(f"Ada kesalahan sistem: {e}")
+    with menu[4]:
+        st.title("Kirim Gambar GeoGebra ke Firebase Realtime Database")
+        DB_URL = "https://diskusimatematika-7a30c-default-rtdb.firebaseio.com".rstrip("/")
+        NODE = "gambar_geogebra1"   # nama "folder" di Realtime Database
+        app_name = "classic"      # graphing / geometry / classic
+        jumlah = 9                 # jumlah gambar terbaru yang ditampilkan di galeri
+ 
+        st.write("📐 Kirim Hasil GeoGebra ke Firebase")
+        HTML = """
+<div style="font-family:sans-serif">
+  <div id="ggb"></div>
+  <div style="margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+    <input id="nama" placeholder="Nama / NIM" style="padding:8px;border:1px solid #ccc;border-radius:6px;width:200px">
+    <button id="kirim" style="padding:8px 16px;border:0;border-radius:6px;background:#1a73e8;color:#fff;cursor:pointer">
+      📤 Kirim ke Firebase
+    </button>
+    <span id="status" style="font-size:14px"></span>
+  </div>
+</div>
+
+<script src="https://www.geogebra.org/apps/deployggb.js"></script>
+<script>
+  const DB_URL = "__DB_URL__";
+  const NODE   = "__NODE__";
+  const statusEl = document.getElementById("status");
+
+  const params = {
+    appName: "__APP__",
+    width: 800, height: 480,
+    showToolBar: true, showAlgebraInput: true, showMenuBar: false,
+    appletOnLoad: () => { statusEl.textContent = "GeoGebra siap ✅"; }
+  };
+  new GGBApplet(params, true).inject("ggb");
+
+  document.getElementById("kirim").onclick = async () => {
+    const nama = document.getElementById("nama").value.trim();
+    if (!nama) { statusEl.textContent = "⚠️ Isi nama dulu."; return; }
+    try {
+      // getPNGBase64(skala, transparan, dpi) -> string base64 tanpa prefix
+      const b64 = ggbApplet.getPNGBase64(1, false, 72);
+      statusEl.textContent = "Mengirim...";
+      const res = await fetch(DB_URL + "/" + NODE + ".json", {
+        method: "POST",                       // POST = push, id unik dibuat otomatis
+        body: JSON.stringify({
+          nama: nama,
+          waktu: new Date().toISOString(),
+          gambar: b64
+        })
+      });
+      if (!res.ok) throw new Error("HTTP " + res.status + " (cek Rules database)");
+      statusEl.textContent = "✅ Terkirim! Klik 'Muat ulang galeri' di bawah.";
+    } catch (e) {
+      statusEl.textContent = "❌ Gagal: " + e.message;
+    }
+  };
+</script>
+"""
+        st.components.v1.html(
+            HTML.replace("__DB_URL__", DB_URL).replace("__NODE__", NODE).replace("__APP__", app_name),
+            height=600,
+            scrolling=True,
+        )
+
+        st.divider()
+        st.subheader("🖼️ Galeri dari Firebase")
+        st.button("🔄 Muat ulang galeri")  # klik = rerun halaman
+
+        try:
+            r = requests.get(
+                f"{DB_URL}/{NODE}.json",
+                params={"orderBy": '"$key"', "limitToLast": jumlah},
+                timeout=15,
+            )
+            r.raise_for_status()
+            data = r.json() or {}
+        except requests.RequestException as e:
+            st.error(f"Gagal membaca database: {e}")
+            st.stop()
+
+        if not data:
+            st.caption("Belum ada gambar.")
+        else:
+            # key push Firebase terurut waktu -> balik agar yang terbaru di depan
+            items = list(data.items())[::-1]
+            kolom = st.columns(3)
+            for i, (key, v) in enumerate(items):
+                with kolom[i % 3]:
+                    st.image(base64.b64decode(v["gambar"]), use_container_width=True)
+                    st.caption(f"**{v.get('nama', '-')}** · {v.get('waktu', '')[:16].replace('T', ' ')}")
+
+                    
 
 def diskusi_GA():
     # Ganti dengan data akun Anda masing-masing
@@ -310,6 +452,9 @@ if st.session_state['kumpulan']['pertemuan4']:
 if st.session_state['kumpulan']['pertemuan5']:
     pertemuan_5()
 
+if st.session_state['kumpulan']['pertemuan6']:
+    pertemuan_6()
+
 if st.session_state['kumpulan']['diskusi']:
     diskusi_GA()
 
@@ -318,45 +463,50 @@ if st.session_state['kumpulan']['diskusi']:
 if st.sidebar.button("Bagian Depan"):
     st.session_state['kumpulan']={'latar':True, 'rps':False, 'pertemuan1':False,
                                   'pertemuan2':False,'pertemuan3':False,'pertemuan4':False,
-                                  'pertemuan5':False,'diskusi':False}
+                                  'pertemuan5':False,'pertemuan6':False,'diskusi':False}
     st.rerun()
 
 if st.sidebar.button("RPS dan Referensi"):
     st.session_state['kumpulan']={'latar':False, 'rps':True, 'pertemuan1':False,
                                   'pertemuan2':False,'pertemuan3':False,'pertemuan4':False,
-                                  'pertemuan5':False,'diskusi':False}
+                                  'pertemuan5':False,'pertemuan6':False,'diskusi':False}
     st.rerun()
 
 if st.sidebar.button("Koordinat dan Polar"):
     st.session_state['kumpulan']={'latar':False, 'rps':False, 'pertemuan1':True,
                                   'pertemuan2':False,'pertemuan3':False,'pertemuan4':False,
-                                  'pertemuan5':False,'diskusi':False}
+                                  'pertemuan5':False,'pertemuan6':False,'diskusi':False}
     st.rerun()
 
 if st.sidebar.button("Rumus Jarak"):
     st.session_state['kumpulan']={'latar':False, 'rps':False, 'pertemuan1':False,
                                   'pertemuan2':True,'pertemuan3':False,'pertemuan4':False,
-                                  'pertemuan5':False,'diskusi':False}
+                                  'pertemuan5':False,'pertemuan6':False,'diskusi':False}
     st.rerun()
 
 if st.sidebar.button("Rumus Luas Segitiga dan Luas Segi Empat"):
     st.session_state['kumpulan']={'latar':False, 'rps':False, 'pertemuan1':False,
                                   'pertemuan2':False,'pertemuan3':True,'pertemuan4':False,
-                                  'pertemuan5':False,'diskusi':False}
+                                  'pertemuan5':False,'pertemuan6':False,'diskusi':False}
     st.rerun()
 if st.sidebar.button("Persamaan Garis dan Gradien"):
     st.session_state['kumpulan']={'latar':False, 'rps':False, 'pertemuan1':False,
                                   'pertemuan2':False,'pertemuan3':False,'pertemuan4':True,
-                                  'pertemuan5':False,'diskusi':False}
+                                  'pertemuan5':False,'pertemuan6':False,'diskusi':False}
     st.rerun()
 if st.sidebar.button("Persamaan Garis Lurus yang Sejajar dan Tegak Lurus"):
     st.session_state['kumpulan']={'latar':False, 'rps':False, 'pertemuan1':False,
                                   'pertemuan2':False,'pertemuan3':False,'pertemuan4':False,
-                                  'pertemuan5':True,'diskusi':False}
+                                  'pertemuan5':True,'pertemuan6':False,'diskusi':False}
+    st.rerun()
+if st.sidebar.button("Persamaan Garis Lurus (Bagi Sudut dan Berkas Garis)"):
+    st.session_state['kumpulan']={'latar':False, 'rps':False, 'pertemuan1':False,
+                                  'pertemuan2':False,'pertemuan3':False,'pertemuan4':False,
+                                  'pertemuan5':False,'pertemuan6':True,'diskusi':False}
     st.rerun()
 st.sidebar.markdown('---')
 if st.sidebar.button("Diskusi"):
     st.session_state['kumpulan']={'latar':False, 'rps':False, 'pertemuan1':False,
                                   'pertemuan2':False,'pertemuan3':False,'pertemuan4':False,
-                                  'pertemuan5':False,'diskusi':True}
+                                  'pertemuan5':False,'pertemuan6':False,'diskusi':True}
     st.rerun()
