@@ -31,19 +31,31 @@ def referensi():
         st.components.v1.html(tulisan_html,height=1500)
 
 def pertemuan_1():
-    tulisan_html='''
-    <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/pertemuan1.html' style='width:100%; height:1000px'></iframe>
-    '''
-    st.components.v1.html(tulisan_html,height=1500)
+    menu = st.tabs(['Modul','video','pembahasan'])
+    with menu[0]:
+        tulisan_html='''
+        <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/pertemuan1.html' style='width:100%; height:1000px'></iframe>
+        '''
+        st.components.v1.html(tulisan_html,height=1500)
+    with menu[1]:
+        st.title('Video Kartesius dan Koordinat')
+        st.video('https://youtu.be/zUCSYjK3O0k')
 
 def pertemuan_2():
-    menu = st.tabs(['Modul','pembahasan'])
+    menu = st.tabs(['Modul','Video','pembahasan'])
     with menu[0]:
         tulisan_html='''
         <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/pertemuan2.html' style='width:100%; height:1000px'></iframe>
         '''
         st.components.v1.html(tulisan_html,height=1500)
     with menu[1]:
+        st.title("Jarak dua titik")
+        st.video("https://youtu.be/o63FT604yQI")
+        st.title("Jarak satu titik terhadap satu garis")
+        st.video("https://youtu.be/UISTx4S51To")
+        st.title("Jarak dua garis sejajar")
+        st.video("https://youtu.be/xqiKRKGA-tc")
+    with menu[2]:
         pass
 
 def pertemuan_3():
@@ -82,13 +94,18 @@ def pertemuan_4():
         pass
 
 def pertemuan_5():
-    menu = st.tabs(['Modul','Latihan HOTS','Latihan Mandiri','pembahasan'])
+    menu = st.tabs(['Modul','Video','Latihan HOTS','Latihan Mandiri','pembahasan'])
     with menu[0]:
         tulisan_html='''
         <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/pertemuan5.html' style='width:100%; height:1000px'></iframe>
         '''
         st.components.v1.html(tulisan_html,height=1500)
     with menu[1]:
+        st.title("Persamaan garis sejajar")
+        st.video('https://youtu.be/VaevyIN_KSo')
+        st.title("Persamaan garis tegak lurus")
+        st.video('https://youtu.be/cUrXz5L05Mg')
+    with menu[2]:
         tulisan_html='''
         <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/hots5.html' style='width:100%; height:1000px'></iframe>
         '''
@@ -116,7 +133,7 @@ def pertemuan_5():
                         st.error('Data Anda Gagal terkirim')
                 except Exceptions as e:
                     st.error('Ada kesalahan di sistem Anda')
-    with menu[2]:
+    with menu[3]:
         tulisan_html='''
         <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/soal6.html' style='width:100%; height:1000px'></iframe>
         '''
