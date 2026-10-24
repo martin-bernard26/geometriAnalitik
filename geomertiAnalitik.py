@@ -69,18 +69,21 @@ def pertemuan_3():
         pass
 
 def pertemuan_4():
-    menu = st.tabs(['Modul','Latihan HOTS','Latihan Mandiri','pembahasan'])
+    menu = st.tabs(['Modul','Video','Latihan HOTS','Latihan Mandiri','pembahasan'])
     with menu[0]:
         tulisan_html='''
         <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/pertemuan4.html' style='width:100%; height:1000px'></iframe>
         '''
         st.components.v1.html(tulisan_html,height=1500)
     with menu[1]:
+        st.title('Persamaan Garis dan Gradien')
+        st.video('https://youtu.be/7HjvZkXKOsA')
+    with menu[2]:
         tulisan_html='''
         <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/latihan4.html' style='width:100%; height:1000px'></iframe>
         '''
         st.components.v1.html(tulisan_html,height=1500)
-    with menu[2]:
+    with menu[3]:
         tulisan_html='''
         <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/mandiri4.html' style='width:100%; height:1000px'></iframe>
         '''
@@ -90,7 +93,7 @@ def pertemuan_4():
         <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/jawabanGrad.html' style='width:100%; height:1000px'></iframe>
         '''
         st.components.v1.html(tulisan_html,height=1500)
-    with menu[3]:
+    with menu[4]:
         pass
 
 def pertemuan_5():
@@ -164,7 +167,7 @@ def pertemuan_5():
                     st.error('Ada kesalahan di sistem silahkan menghubungi')
 
 def pertemuan_6():
-    menu = st.tabs(['Modul','Video','Latihan Penguatan Dasar','Latihan HOTS','Bantuan Geogebra'])
+    menu = st.tabs(['Modul','Video','Latihan Penguatan Dasar','Latihan HOTS','Bantuan Geogebra','Angket','Pembahasan'])
     with menu[0]:
         tulisan_html='''
         <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/bagiberkas.html' style='width:100%; height:1000px'></iframe>
@@ -302,6 +305,15 @@ def pertemuan_6():
                 with kolom[i % 3]:
                     st.image(base64.b64decode(v["gambar"]), use_container_width=True)
                     st.caption(f"**{v.get('nama', '-')}** · {v.get('waktu', '')[:16].replace('T', ' ')}")
+    with menu[5]:
+        st.title("Angket Mahasiswa")
+        tulisan_html = '''
+        <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/Angket6.html' style='width:100%; height:1000px'></iframe>
+        '''
+        st.components.v1.html(tulisan_html,height=1000)
+
+    with menu[6]:
+        pass
 
                     
 
