@@ -336,7 +336,7 @@ def pertemuan_7():
         '''
         st.components.v1.html(tulisan_html,height=1000)
     with menu[4]:
-        st.write('https://martin-bernard26.github.io/GeometriAnalitic/geoblocky2.html')
+        st.write('https://martin-bernard26.github.io/GeometriAnalitic/geoblockly3.html')
         tulisan_html='''
         <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/geoblocky2.html' style='width:100%; height:1000px'></iframe>
         '''
