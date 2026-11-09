@@ -8,7 +8,8 @@ st.set_page_config(layout="wide")
 if "kumpulan" not in st.session_state:
     st.session_state['kumpulan']={'latar':True, 'rps':False, 'pertemuan1':False,
                                   'pertemuan2':False, 'pertemuan3':False,'pertemuan4':False,
-                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':False,'pertemuan8':False,'diskusi':False}
+                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':False,'pertemuan8':False,
+                                  'pertemuan9':False,'diskusi':False}
 
 #==========================
 def kover():
@@ -551,6 +552,30 @@ def pertemuan_8():
                     st.error("Data Anda gagal di simpan")
             except Exception as e:
                 st.error(f"Ada kesalahan sistem: {e}")
+
+def pertemuan_9():
+    menu = st.tabs(['Modul','Video','Latihan','Diskusi'])
+    with menu[0]:
+        tulisan_html='''
+        <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/pertemuan9.html' style='width:100%; height:1000px'></iframe>
+        '''
+        st.components.v1.html(tulisan_html,height=1000)
+    with menu[1]:
+        st.title("Garis Singgung lingkaran pusat (0,0) melalui titik luar lingkaran")
+        st.video("https://youtu.be/sDW3xvkdUbQ")
+        st.title("Garis Singgung lingkaran pusat (0,0) dan (a,b) melalui titik yang terletak lingkaran")
+        st.video("https://youtu.be/_6rO3At4MoQ")
+    with menu[2]:
+        tulisan_html='''
+        <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/latihan9.html' style='width:100%; height:1000px'></iframe>
+        '''
+        st.components.v1.html(tulisan_html,height=1000)
+    with menu[3]:
+        st.write('https://martin-bernard26.github.io/GeometriAnalitic/geojsfirebase.html')
+        tulisan_html='''
+        <iframe src='https://martin-bernard26.github.io/GeometriAnalitic/geojsfirebase.html' style='width:100%; height:1000px'></iframe>
+        '''
+        st.components.v1.html(tulisan_html,height=1000)
 #==========================
 
 if st.session_state['kumpulan']['latar']:
@@ -583,6 +608,9 @@ if st.session_state['kumpulan']['pertemuan7']:
 if st.session_state['kumpulan']['pertemuan8']:
     pertemuan_8()
 
+if st.session_state['kumpulan']['pertemuan9']:
+    pertemuan_9()
+
 if st.session_state['kumpulan']['diskusi']:
     diskusi_GA()
 
@@ -591,19 +619,22 @@ if st.session_state['kumpulan']['diskusi']:
 if st.sidebar.button("Bagian Depan"):
     st.session_state['kumpulan']={'latar':True, 'rps':False, 'pertemuan1':False,
                                   'pertemuan2':False,'pertemuan3':False,'pertemuan4':False,
-                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':False,'pertemuan8':False,'diskusi':False}
+                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':False,'pertemuan8':False,
+                                  'pertemuan9':False,'diskusi':False}
     st.rerun()
 
 if st.sidebar.button("RPS dan Referensi"):
     st.session_state['kumpulan']={'latar':False, 'rps':True, 'pertemuan1':False,
                                   'pertemuan2':False,'pertemuan3':False,'pertemuan4':False,
-                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':False,'pertemuan8':False,'diskusi':False}
+                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':False,'pertemuan8':False,
+                                  'pertemuan9':False,'diskusi':False}
     st.rerun()
 
 if st.sidebar.button("Koordinat dan Polar"):
     st.session_state['kumpulan']={'latar':False, 'rps':False, 'pertemuan1':True,
                                   'pertemuan2':False,'pertemuan3':False,'pertemuan4':False,
-                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':False,'pertemuan8':False,'diskusi':False}
+                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':False,'pertemuan8':False,
+                                  'pertemuan9':False,'diskusi':False}
     st.rerun()
 
 if st.sidebar.button("Rumus Jarak"):
@@ -615,36 +646,49 @@ if st.sidebar.button("Rumus Jarak"):
 if st.sidebar.button("Rumus Luas Segitiga dan Luas Segi Empat"):
     st.session_state['kumpulan']={'latar':False, 'rps':False, 'pertemuan1':False,
                                   'pertemuan2':False,'pertemuan3':True,'pertemuan4':False,
-                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':False,'pertemuan8':False,'diskusi':False}
+                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':False,'pertemuan8':False,
+                                  'pertemuan9':False,'diskusi':False}
     st.rerun()
 if st.sidebar.button("Persamaan Garis dan Gradien"):
     st.session_state['kumpulan']={'latar':False, 'rps':False, 'pertemuan1':False,
                                   'pertemuan2':False,'pertemuan3':False,'pertemuan4':True,
-                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':False,'pertemuan8':False,'diskusi':False}
+                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':False,'pertemuan8':False,
+                                  'pertemuan9':False,'diskusi':False}
     st.rerun()
 if st.sidebar.button("Persamaan Garis Lurus yang Sejajar dan Tegak Lurus"):
     st.session_state['kumpulan']={'latar':False, 'rps':False, 'pertemuan1':False,
                                   'pertemuan2':False,'pertemuan3':False,'pertemuan4':False,
-                                  'pertemuan5':True,'pertemuan6':False,'pertemuan7':False,'pertemuan8':False,'diskusi':False}
+                                  'pertemuan5':True,'pertemuan6':False,'pertemuan7':False,'pertemuan8':False,
+                                  'pertemuan9':False,'diskusi':False}
     st.rerun()
 if st.sidebar.button("Persamaan Garis Lurus (Bagi Sudut dan Berkas Garis)"):
     st.session_state['kumpulan']={'latar':False, 'rps':False, 'pertemuan1':False,
                                   'pertemuan2':False,'pertemuan3':False,'pertemuan4':False,
-                                  'pertemuan5':False,'pertemuan6':True,'pertemuan7':False,'pertemuan8':False,'diskusi':False}
+                                  'pertemuan5':False,'pertemuan6':True,'pertemuan7':False,'pertemuan8':False,
+                                  'pertemuan9':False,'diskusi':False}
     st.rerun()
 if st.sidebar.button("Lingkaran (Definis dan Unsur-unsu Lingkaran)"):
     st.session_state['kumpulan']={'latar':False, 'rps':False, 'pertemuan1':False,
                                   'pertemuan2':False,'pertemuan3':False,'pertemuan4':False,
-                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':True,'pertemuan8':False,'diskusi':False}
+                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':True,'pertemuan8':False,
+                                  'pertemuan9':False,'diskusi':False}
     st.rerun()
 if st.sidebar.button("Ujian Tengah Semester"):
     st.session_state['kumpulan']={'latar':False, 'rps':False, 'pertemuan1':False,
                                   'pertemuan2':False,'pertemuan3':False,'pertemuan4':False,
-                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':False,'pertemuan8':True,'diskusi':False}
+                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':False,'pertemuan8':True,
+                                  'pertemuan9':False,'diskusi':False}
+    st.rerun()
+if st.sidebar.button("Garis Singgung Lingkaran"):
+    st.session_state['kumpulan']={'latar':False, 'rps':False, 'pertemuan1':False,
+                                  'pertemuan2':False,'pertemuan3':False,'pertemuan4':False,
+                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':False,'pertemuan8':False,
+                                  'pertemuan9':True,'diskusi':False}
     st.rerun()
 st.sidebar.markdown('---')
 if st.sidebar.button("Diskusi"):
     st.session_state['kumpulan']={'latar':False, 'rps':False, 'pertemuan1':False,
                                   'pertemuan2':False,'pertemuan3':False,'pertemuan4':False,
-                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':False,'pertemuan8':False,'diskusi':True}
+                                  'pertemuan5':False,'pertemuan6':False,'pertemuan7':False,'pertemuan8':False,
+                                  'pertemuan9':False,'diskusi':True}
     st.rerun()
